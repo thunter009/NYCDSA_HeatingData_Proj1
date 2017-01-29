@@ -2,11 +2,19 @@
 library(dplyr)
 library(data.table)
 library(ggthemes)
-library(ggTimeSeries)
-# library(tidyr)
-# library(ggplot2)
-# library(ggmap)
-# library(mapproj)
+library(tidyr)
+library(ggplot2)
+library(ggmap)
+library(mapproj)
+
+
+# devtools::install_github('dkahle/ggmap')
+# devtools::install_github('hadley/ggplot2')
+install.packages("ggthemes", type = "source")
+
+library(devtools)
+install_version("ggplot2", version = "2.1.0", repos = "http://cran.us.r-project.org")
+
 
 setwd('~/Dropbox/learning/NYCDSA/projects/NYCDSA_project_1/')
 options(digits.secs = 6) #to include fractions of a second for timestamps
@@ -103,6 +111,6 @@ cols_hs <- c("Street Address" = "address",
 # g <- ggplot(data = df_311subset, aes(x = ))
 # g+geom_bar()
 # 
-# nyc_map <- get_map(location="New York City",
-#                  source="google", maptype=“watercolor", crop=FALSE)
-#                  ggmap(myMap)
+
+                 
+get_googlemap("New York City", zoom = 12, maptype = "roadmap") %>% ggmap()

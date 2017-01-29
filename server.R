@@ -1,20 +1,22 @@
 library(ggplot2)
+library(ggthemes)
+library(rvg)                                                                                                            
+library(ggiraph)
 require(global.R)
 
 function(input,output){
-  by_year <- count(df_311subset,Year)
-  by_winters <- count(df_311subset, Winters)
-  by_borough <- count(df_311subset, Borough)
-
   output$bar_311 <- renderPlot({
-    g <- ggplot(data = df_311subset)
-    g <- g+geom_bar(aes_string(x = input$col_select))
-    g <- g+ggtitle("NYC 311 Heating Complaints, 2010-2017")
-    g <- g+xlab(as.character(input$col_select))
+    # by_year <- count(df_311subset,`input$col_select`)[1:8,]
+    # by_winters <- count(df_311subset, `Winters`)[1:8,]
+    # by_borough <- count(df_311subset, Borough)[1:5,]
+    
+    g <- ggplot(data = df_311subset, aes_string(x = input$bar_col_sel, colour = 'FB500B'))
+    g <- g+geom_bar_interactive()
+    g <- g+ggtitle("NYC 311 Heating Complaints2010-2017")
+    g <- g+xlab(as.character(input$bar_col_sel))
     g <- g+ylab("Total Complaints")
-  })
-  
-  output$bar_311 <- renderPlot({
-    p1 = ggplot_calendar_heatmap(df_311subset
+    ggiraph(code = {print(g)})
+    
+  output$bar_hs
   })
 }
