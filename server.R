@@ -1,22 +1,32 @@
 library(ggplot2)
-library(ggthemes)
-library(rvg)                                                                                                            
-library(ggiraph)
+library(RColorBrewer)
 require(global.R)
 
 function(input,output){
+  
+  #311 outputs
   output$bar_311 <- renderPlot({
-    # by_year <- count(df_311subset,`input$col_select`)[1:8,]
-    # by_winters <- count(df_311subset, `Winters`)[1:8,]
-    # by_borough <- count(df_311subset, Borough)[1:5,]
-    
-    g <- ggplot(data = df_311subset, aes_string(x = input$bar_col_sel, colour = 'FB500B'))
-    g <- g+geom_bar_interactive()
-    g <- g+ggtitle("NYC 311 Heating Complaints2010-2017")
-    g <- g+xlab(as.character(input$bar_col_sel))
+    g <- ggplot(data = df_311subset, aes_string(x = input$nyc_bar_col_sel))
+    g <- g+geom_bar()
+    g <- g+xlab(as.character(input$nyc_bar_col_sel))
     g <- g+ylab("Total Complaints")
-    ggiraph(code = {print(g)})
-    
-  output$bar_hs
+    })
+  
+  #Heat Seek outputs
+  output$bar_hs <- renderPlot({
+    g <- ggplot(data = df_hs, aes_string(x = df_hs$created_at, y = mean(df_hs$temp)))
+    g <- g+geom_line(aes(group = input$hs_cat_inp))
+    g <- scale_fill_brewer(palette = "Blues")
+    g <- g+xlab('Time')
+    g <- g+ylab("Mean Temperature")
+    g
+    })
+  
+  output$map_hs <- renderPlot({
+    qmplot(lon, lat, data = sensor_mapping, maptype = "toner-lite", color = I("red"))
   })
+
+  outputOptions(output, 'bar_311', suspendWhenHidden = FALSE)
+  outputOptions(output, 'bar_hs', suspendWhenHidden = FALSE)
+  
 }
