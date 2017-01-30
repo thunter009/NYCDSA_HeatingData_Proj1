@@ -8,20 +8,19 @@ function(input,output){
   output$bar_311 <- renderPlot({
     g <- ggplot(data = df_311subset, aes_string(x = input$nyc_bar_col_sel))
     g <- g+geom_bar()
-    g <- g+scale_fill_brewer(palette = "Blues")
     g <- g+xlab(as.character(input$nyc_bar_col_sel))
     g <- g+ylab("Total Complaints")
     })
   
   #Heat Seek outputs
   output$line_hs <- renderPlot({
-    g <- ggplot(data = df_hs, aes_string(x = df_hs$created_at, y = mean(df_hs$temp)))
-    g <- g+geom_line()
-    g <- g+scale_fill_brewer(palette = "Blues")
+    g <- ggplot(data = df_hs, aes_string(x = df_hs$created_at, y = df_hs$temp))
+    g <- g+geom_line(aes_string(group = input$cols_hs))
     g <- g+xlab("Time")
-    g <- g+ylab("Mean Temperature")
+    g <- g+ylab("Temperature")
     g
     })
+  
   
   output$map_hs <- renderPlot({
     qmplot(lon, lat, data = sensor_mapping, maptype = "toner-lite", color = I("red"))
