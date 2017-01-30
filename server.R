@@ -8,16 +8,17 @@ function(input,output){
   output$bar_311 <- renderPlot({
     g <- ggplot(data = df_311subset, aes_string(x = input$nyc_bar_col_sel))
     g <- g+geom_bar()
+    g <- g+scale_fill_brewer(palette = "Blues")
     g <- g+xlab(as.character(input$nyc_bar_col_sel))
     g <- g+ylab("Total Complaints")
     })
   
   #Heat Seek outputs
-  output$bar_hs <- renderPlot({
+  output$line_hs <- renderPlot({
     g <- ggplot(data = df_hs, aes_string(x = df_hs$created_at, y = mean(df_hs$temp)))
-    g <- g+geom_line(aes(group = input$hs_cat_inp))
-    g <- scale_fill_brewer(palette = "Blues")
-    g <- g+xlab('Time')
+    g <- g+geom_line()
+    g <- g+scale_fill_brewer(palette = "Blues")
+    g <- g+xlab("Time")
     g <- g+ylab("Mean Temperature")
     g
     })
@@ -27,6 +28,6 @@ function(input,output){
   })
 
   outputOptions(output, 'bar_311', suspendWhenHidden = FALSE)
-  outputOptions(output, 'bar_hs', suspendWhenHidden = FALSE)
+  outputOptions(output, 'line_hs', suspendWhenHidden = FALSE)
   
 }

@@ -113,8 +113,7 @@ cols_311 <- c("Borough" = "Borough",
               "Year" = "Year", 
               "Winter" = "Winters")
 cols_hs <- c( "Year" = "Year",
-              "Winter" = "Winters",
-              "Zip Code" = "zip_code")
+              "Winter" = "Winters")
 
 hs_addresses <- sensor_mapping[,1]
 
